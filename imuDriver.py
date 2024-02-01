@@ -120,7 +120,5 @@ class IMU:
 imu = IMU('/dev/ttyUSB0', 1250000)
 while True:
     imu.get();
-    print("x:",imu.accelerometer_axis_x)
-    print("y:",imu.accelerometer_axis_y)
-    print("z:",imu.accelerometer_axis_z)
-    
+    print("Accelerometer Axis: ({}, {}, {})".format(imu.accelerometer_axis_x, imu.accelerometer_axis_y, imu.accelerometer_axis_z))
+    print("-" * 30)
