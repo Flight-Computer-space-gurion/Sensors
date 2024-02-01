@@ -26,6 +26,26 @@ gps = adafruit_gps.GPS(uart, debug=False)  # Use UART/pyserial
 # These are NMEA extensions for PMTK_314_SET_NMEA_OUTPUT and PMTK_220_SET_NMEA_UPDATERATE.
 # You can adjust the GPS module's behavior using these commands.
 # More details can be found in the datasheet: https://cdn-shop.adafruit.com/datasheets/PMTK_A11.pdf
+# Explanation for each gps.send_command() parameter:
+# PMTK314,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+# This command sets the NMEA output sentences to GGA, RMC, VTG, GSA, GSV, and GLL.
+# The parameters are as follows:
+# - $PMTK314: Command header
+# - 0: GGA sentence (Global Positioning System Fix Data) - Disable
+# - 1: RMC sentence (Recommended Minimum Specific GNSS Data) - Enable
+# - 0: VTG sentence (Course Over Ground and Ground Speed) - Disable
+# - 1: GSA sentence (GNSS DOP and Active Satellites) - Enable
+# - 0: GSV sentence (GNSS Satellites in View) - Disable
+# - 0: GLL sentence (Geographic Position - Latitude/Longitude) - Disable
+# - 0: Reserved
+# - 0: Reserved
+# - 0: Reserved
+# - 0: Reserved
+# - 0: Reserved
+# - 0: Reserved
+# - 0: Reserved
+# - 0: Reserved
+# - 0: Reserved
 gps.send_command(b"PMTK314,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0")
 
 # Set update rate to once a second (1hz), which is typical.
