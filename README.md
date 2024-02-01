@@ -17,7 +17,7 @@ Welcome to the Space Gurion's Flight Computer Sensors repository. This repositor
 
 ## Installation
 1. Clone the repository:
-git clone [repository URL]
+git clone [[repository URL]](https://github.com/Flight-Computer-space-gurion/Sensors.git)
 2. Install required Python libraries:
   pip install pyserial numpy
 
