@@ -106,6 +106,8 @@ class IMU:
         self.counter = packet_int[32]
         self.crc = packet_int[33] + (packet_int[34] << 8)
 
+    
+    
     def sensor_values_adaptions(self):
         # Convert the values to floats
         self.gyro_axis_x = values_adapt(self.gyro_axis_x, GYRO_FACTOR)
@@ -117,8 +119,3 @@ class IMU:
         self.accelerometer_axis_x_high_g = values_adapt(self.accelerometer_axis_x_high_g, ACCELERATION_FACTOR)
         self.temperature = self.temperature / TEMPERATURE_FACTOR
         
-imu = IMU('/dev/ttyUSB0', 1250000)
-while True:
-    imu.get();
-    print("Accelerometer Axis: ({}, {}, {})".format(imu.accelerometer_axis_x, imu.accelerometer_axis_y, imu.accelerometer_axis_z))
-    print("-" * 30)
