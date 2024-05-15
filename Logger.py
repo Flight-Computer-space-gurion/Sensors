@@ -100,6 +100,7 @@ class Logger:
         counter = 0
         try:
             while True:
+                self.imu.get()
                 self.LastTime = self.collectData(self.LastTime)  # Update lastTime with the return value
                 time.sleep(0.1)
                 counter+=1
