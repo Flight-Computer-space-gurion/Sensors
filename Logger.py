@@ -5,7 +5,6 @@ import numpy as np
 class Logger:
     def __init__(self):
         self.imu = imuDriver.IMU('/dev/ttyUSB0', 1250000)
-        self.imu.start()
         self.logFile = open("log.txt", "w")
         self.LastPosition = (0.0, 0.0, 0.0)
         self.lastSpeed = (0.0, 0.0, 0.0)
@@ -15,7 +14,7 @@ class Logger:
         
 
     def writeHeader(self):
-        self.print("Time,PositionX,PositionY,PositionZ,SpeedX,SpeedY,SpeedZ,Time\n")
+        print("Time,PositionX,PositionY,PositionZ,SpeedX,SpeedY,SpeedZ,Time\n")
         self.logFile.write("Time,PositionX,PositionY,PositionZ,SpeedX,SpeedY,SpeedZ,Time\n")
 
     def collectData(self, lastTime):
@@ -53,16 +52,10 @@ class Logger:
         self.lastSpeed = (speedX, speedY, speedZ)
         self.LastPosition = (positionX, positionY, positionZ)
 
-        # Log the data to the file and print it
-        self.logData(currentTime, positionX, positionY, positionZ, speedX, speedY, speedZ)
 
         # Return the current time for the next iteration
         return currentTime
 
-    def logData(self, currentTime, positionX, positionY, positionZ, speedX, speedY, speedZ):
-        logString = f"{currentTime},{positionX},{positionY},{positionZ},{speedX},{speedY},{speedZ}\n"
-        self.logFile.write(logString)
-        print(logString.strip())
 
     def updateOrientation(self, orientation, gyroVector):
         # Update the orientation quaternion based on the gyroscope vector
@@ -91,7 +84,7 @@ class Logger:
         ])
     
     def writeData(self):
-        self.print(f"{self.LastTime},{self.LastPosition[0]},{self.LastPosition[1]},{self.LastPosition[2]},{self.lastSpeed[0]},{self.lastSpeed[1]},{self.lastSpeed[2]},{self.LastTime}\n")
+        print(f"{self.LastTime},{self.LastPosition[0]},{self.LastPosition[1]},{self.LastPosition[2]},{self.lastSpeed[0]},{self.lastSpeed[1]},{self.lastSpeed[2]},{self.LastTime}\n")
         self.logFile.write(f"{self.LastPosition[0]},{self.LastPosition[1]},{self.LastPosition[2]},{self.lastSpeed[0]},{self.lastSpeed[1]},{self.lastSpeed[2]},{self.LastTime}\n")
 
     def log(self):
@@ -102,9 +95,8 @@ class Logger:
             while True:
                 self.imu.get()
                 self.LastTime = self.collectData(self.LastTime)  # Update lastTime with the return value
-                time.sleep(0.1)
-                counter+=1
-                if counter == 30:
+                counter+= 1
+                if counter == 1000:
                     self.writeData()
                     counter = 0
         except KeyboardInterrupt:

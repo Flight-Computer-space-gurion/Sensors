@@ -1,5 +1,9 @@
+
+
 import serial
 import numpy as np
+import os
+import time
 
 PACKET_SIZE = 36
 ACCELERATION_FACTOR = (2**15)
@@ -119,3 +123,16 @@ class IMU:
         self.accelerometer_axis_x_high_g = values_adapt(self.accelerometer_axis_x_high_g, ACCELERATION_FACTOR)
         self.temperature = self.temperature / TEMPERATURE_FACTOR
         
+if __name__ == "__main__":
+    imu = IMU('/dev/ttyUSB0', 1250000)
+    imu.get()
+    while True:
+        imu.get()
+        print("Gyro X: ", imu.gyro_axis_x, " Gyro Y: ", imu.gyro_axis_y, " Gyro Z: ", imu.gyro_axis_z)
+        print("Accel X: ", imu.accelerometer_axis_x, " Accel Y: ", imu.accelerometer_axis_y, " Accel Z: ", imu.accelerometer_axis_z)
+        print("Temperature: ", imu.temperature)
+
+        # Clear the terminal
+        os.system('clear')
+        print("\n")
+
