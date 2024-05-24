@@ -1,5 +1,3 @@
-
-
 import serial
 import numpy as np
 import os
@@ -126,13 +124,34 @@ class IMU:
 if __name__ == "__main__":
     imu = IMU('/dev/ttyUSB0', 1250000)
     imu.get()
-    while True:
+    v_array = []
+    while True:   
+        s_time = time.time()
+        
         imu.get()
-        print("Gyro X: ", imu.gyro_axis_x, " Gyro Y: ", imu.gyro_axis_y, " Gyro Z: ", imu.gyro_axis_z)
-        print("Accel X: ", imu.accelerometer_axis_x, " Accel Y: ", imu.accelerometer_axis_y, " Accel Z: ", imu.accelerometer_axis_z)
-        print("Temperature: ", imu.temperature)
+        gyro_axis_x = imu.gyro_axis_x
+        gyro_axis_y = imu.gyro_axis_y
+        gyro_axis_z = imu.gyro_axis_z
+        accelerometer_axis_x = imu.accelerometer_axis_x
+        accelerometer_axis_y = imu.accelerometer_axis_y
+        accelerometer_axis_z = imu.accelerometer_axis_z
+        temperature = imu.temperature
+        
+        e_time = time.time()
+        dt = e_time - s_time
+        x_velocity = round(accelerometer_axis_x * dt,3)
+        #v_array.append(accelerometer_axis_x * dt)
+
+        print("Gyro X: ", gyro_axis_x, " Gyro Y: ", gyro_axis_y, " Gyro Z: ", gyro_axis_z)
+        print("Accel X: ", accelerometer_axis_x, " Accel Y: ", accelerometer_axis_y, " Accel Z: ", accelerometer_axis_z)
+        print("Temperature: ", temperature)
+        print ("X Velocity: ", x_velocity)
+        
 
         # Clear the terminal
         os.system('clear')
         print("\n")
+        
 
+    
+    print("Av Time: ", (e_time - s_time)/cons)
